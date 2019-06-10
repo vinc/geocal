@@ -1,0 +1,10 @@
+[package]
+name = "geocal"
+version = "0.1.0"
+authors = ["Vincent Ollivier <v@vinc.cc>"]
+edition = "2018"
+
+[dependencies]
+colored = "1.8"
+time = "0.1"
+geodate = { git = "https://github.com/vinc/geodate" }
