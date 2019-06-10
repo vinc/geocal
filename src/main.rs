@@ -37,7 +37,7 @@ fn main() {
     println!("{}", line);
 
     // Date
-    println!("| {:12} {} |", "Date:".bold(), format!("{}{}/{}/{}", date[0], date[1], date[2], date[3]).bold().red());
+    println!("| {:12} {} |", "Date:".bold(), format!("{}{}-{}-{}", date[0], date[1], date[2], date[3]).bold().red());
     println!("{}", line);
 
     // Calendar
