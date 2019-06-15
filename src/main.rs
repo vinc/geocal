@@ -33,18 +33,20 @@ fn main() {
     let b = get_formatted_date(&format, t, longitude);
     let is_short_month = a != b;
 
-    let line = "+-------------------------+";
+    println!("");
+    let line = "  +-------------------------+";
+    let lsep = "  |";           let rsep = "|";
     println!("{}", line);
 
     // Date
-    println!("| {:12} {} |", "Date:".bold(), format!("{}{}-{}-{}", date[0], date[1], date[2], date[3]).bold().red());
+    println!("{} {:12} {} {}", lsep, "Date:".bold(), format!("{}{}-{}-{}", date[0], date[1], date[2], date[3]).bold().red(), rsep);
     println!("{}", line);
 
     // Calendar
-    println!("| {} |", "So Me Ve Te Ma Ju Sa Lu".bold());
+    println!("{} {} {}", lsep, "So Me Ve Te Ma Ju Sa Lu".bold(), rsep);
     for i in 0..30 {
         if i == 0 || i == 7 || i == 15 || i == 22 {
-            print!("| ");
+            print!("{} ", lsep);
         }
         let mut day = format!("{:02}", i);
         if day == date[3] {
@@ -54,15 +56,15 @@ fn main() {
         }
         print!("{} ", day);
         if i == 14 || i == 29 {
-            println!("|");
+            println!("{}", rsep);
         } else if i == 6 || i == 21 {
-            println!("   |");
+            println!("   {}", rsep);
         }
     }
     println!("{}", line);
 
     // Time
-    println!("| {:17} {} |", "Time:".bold(), format!("{}:{}", date[4], date[5]).bold().red());
+    println!("{} {:17} {} {}", lsep, "Time:".bold(), format!("{}:{}", date[4], date[5]).bold().red(), rsep);
     println!("{}", line);
 
     // Ephemeris
@@ -76,7 +78,7 @@ fn main() {
                 _ => e
             };
             let time = get_formatted_date("%c:%b", t, longitude);
-            println!("| {:17} {} |", format!("{}:", name), time);
+            println!("{} {:17} {} {}", lsep, format!("{}:", name), time, rsep);
         }
         println!("{}", line);
     }
