@@ -4,11 +4,45 @@ use geodate::reverse::*;
 use geodate::ephemeris::*;
 use std::env;
 
+// A lunisolar month can be 29 or 30 days long
+fn last_day_of_lunisolar_month(timestamp: i64, longitude: f64) -> usize {
+    // HACK: This rely on an undefined behavior when getting a timestamp for
+    // day following the last day of the month.
+    let format = String::from("%h:%y:%m:%d:%c:%b");
+    let a = get_formatted_date("%h:%y:%m:29:50:00", timestamp, longitude);
+    let t = get_timestamp(format.clone(), a.clone(), longitude);
+    let b = get_formatted_date(&format, t, longitude);
+    if a == b {
+        29
+    } else {
+        28
+    }
+}
+
+// A solar month can be 89 to 93 days long
+fn last_day_of_solar_month(timestamp: i64, longitude: f64) -> usize {
+    // HACK: This rely on an undefined behavior when getting a timestamp for
+    // day following the last day of the month.
+    let format = String::from("%h:%y:%s:%d:%c:%b");
+    for i in 89..100 {
+        let a = get_formatted_date(&format!("%h:%y:%s:{:02}:50:00", i), timestamp, longitude);
+        let t = get_timestamp(format.clone(), a.clone(), longitude);
+        let b = get_formatted_date(&format, t, longitude);
+        if a != b {
+            return i - 1;
+        }
+    }
+    unreachable!();
+}
+
 fn main() {
     let mut show_ephemeris = false;
+    let mut solar_calendar = false;
     let args: Vec<String> = env::args().filter(|arg| {
         if arg == "--ephem" {
             show_ephemeris = true
+        } else if arg == "--solar" {
+            solar_calendar = true
         }
         !arg.starts_with("--")
     }).collect();
@@ -21,50 +55,77 @@ fn main() {
         time::get_time().sec
     };
 
-    let format = String::from("%h:%y:%m:%d:%c:%b");
+    let week;
+    let format;
+    if solar_calendar {
+        week = 10;
+        format = String::from("%h:%y:%s:%d:%c:%b");
+    } else {
+        week = 8;
+        format = String::from("%h:%y:%m:%d:%c:%b");
+    };
     let formatted_date = get_formatted_date(&format, timestamp, longitude);
     let date: Vec<_> = formatted_date.split(":").collect();
 
-    // Check if the month is short (29 days) or long (30 days)
-    // HACK: This rely on an undefined behavior when getting a timestamp for
-    // the day #30 of a 29 days month (short month).
-    let a = get_formatted_date("%h:%y:%m:29:50:00", timestamp, longitude);
-    let t = get_timestamp(format.clone(), a.clone(), longitude);
-    let b = get_formatted_date(&format, t, longitude);
-    let is_short_month = a != b;
-
     println!("");
-    let line = "  +-------------------------+";
-    let lsep = "  |";           let rsep = "|";
+    let line = format!("  +-{}+", "-".repeat(3 * week));
+    let sep = "|";
     println!("{}", line);
 
     // Date
-    println!("{} {:12} {} {}", lsep, "Date:".bold(), format!("{}{}-{}-{}", date[0], date[1], date[2], date[3]).bold().red(), rsep);
+    let colored_title = "Date:".bold();
+    let colored_date = format!("{}{}-{}-{}", date[0], date[1], date[2], date[3]).bold().red();
+    println!("  {} {:spacing$} {} {}", sep, colored_title, colored_date, sep, spacing = (3 * week) - 12);
     println!("{}", line);
 
     // Calendar
-    println!("{} {} {}", lsep, "So Me Ve Te Ma Ju Sa Lu".bold(), rsep);
-    for i in 0..30 {
-        if i == 0 || i == 7 || i == 15 || i == 22 {
-            print!("{} ", lsep);
+    let last_day;
+    if solar_calendar {
+        print!("  {} {} ", sep, "So Me Ve Te Ma Ju Sa Ur Ne Lu".bold());
+        last_day = last_day_of_solar_month(timestamp, longitude);
+    } else {
+        print!("  {} {} ", sep, "So Me Ve Te Ma Ju Sa Lu".bold());
+        last_day = last_day_of_lunisolar_month(timestamp, longitude);
+    }
+    let n = last_day + 1;
+    for i in 0..n {
+        // Weekend
+        if solar_calendar {
+            if i % week == 0 {
+                print!("|\n  {} ", sep);
+            }
+        } else if i == 0 || i == 7 || i == 15 || i == 22 {
+            // The lunisolar calendar has a leap day at the end of the
+            // second week and another at the end of the last week if
+            // the month is long (30 days).
+            if i == 7 || i == 22 {
+                print!("   ");
+            }
+            print!("|\n  {} ", sep);
         }
+
         let mut day = format!("{:02}", i);
         if day == date[3] {
             day = day.bold().red().to_string();
-        } else if i == 29 && is_short_month {
-            day = format!("  ");
         }
         print!("{} ", day);
-        if i == 14 || i == 29 {
-            println!("{}", rsep);
-        } else if i == 6 || i == 21 {
-            println!("   {}", rsep);
-        }
     }
+    if solar_calendar {
+        if last_day > 89 {
+            print!("{}", "   ".repeat(99 - last_day));
+        } else {
+            print!("{}", "   ".repeat(89 - last_day));
+        }
+    } else if last_day == 28 {
+        print!("   ");
+    }
+    println!("|");
     println!("{}", line);
 
     // Time
-    println!("{} {:17} {} {}", lsep, "Time:".bold(), format!("{}:{}", date[4], date[5]).bold().red(), rsep);
+    let colored_title = "Time:".bold();
+    let colored_time = format!("{}:{}", date[4], date[5]).bold().red();
+    println!("  {} {:spacing$} {} {}", sep, colored_title, colored_time, sep, spacing = (3 * week) - 7);
     println!("{}", line);
 
     // Ephemeris
@@ -78,7 +139,7 @@ fn main() {
                 _ => e
             };
             let time = get_formatted_date("%c:%b", t, longitude);
-            println!("{} {:17} {} {}", lsep, format!("{}:", name), time, rsep);
+            println!("  {} {:spacing$} {} {}", sep, format!("{}:", name), time, sep, spacing = (3 * week) - 7);
         }
         println!("{}", line);
     }
