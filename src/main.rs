@@ -19,12 +19,12 @@ fn last_day_of_lunisolar_month(timestamp: i64, longitude: f64) -> usize {
     }
 }
 
-// A solar month can be 89 to 93 days long
+// A solar month can be 88 to 94 days long
 fn last_day_of_solar_month(timestamp: i64, longitude: f64) -> usize {
     // HACK: This rely on an undefined behavior when getting a timestamp for
     // day following the last day of the month.
     let format = String::from("%h:%y:%s:%d:%c:%b");
-    for i in 89..100 {
+    for i in 88..100 {
         let a = get_formatted_date(&format!("%h:%y:%s:{:02}:50:00", i), timestamp, longitude);
         let t = get_timestamp(format.clone(), a.clone(), longitude);
         let b = get_formatted_date(&format, t, longitude);
