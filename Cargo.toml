@@ -3,6 +3,8 @@ name = "geocal"
 version = "0.1.0"
 authors = ["Vincent Ollivier <v@vinc.cc>"]
 edition = "2018"
+repository = "https://github.com/vinc/geocal"
+readme = "README.md"
 
 [dependencies]
 colored = "1.8"
