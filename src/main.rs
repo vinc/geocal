@@ -3,6 +3,7 @@ use geodate::geodate::*;
 use geodate::reverse::*;
 use geodate::ephemeris::*;
 use std::env;
+use std::time::SystemTime;
 
 // A lunisolar month can be 29 or 30 days long
 fn last_day_of_lunisolar_month(timestamp: i64, longitude: f64) -> usize {
@@ -52,7 +53,10 @@ fn main() {
     let timestamp = if args.len() == 4 {
         args[3].parse::<i64>().unwrap()
     } else {
-        time::get_time().sec
+        match SystemTime::now().duration_since(SystemTime::UNIX_EPOCH) {
+            Ok(time) => time.as_secs() as i64,
+            Err(_) => 0
+        }
     };
 
     let week;

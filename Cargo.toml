@@ -8,5 +8,4 @@ readme = "README.md"
 
 [dependencies]
 colored = "1.8"
-time = "0.1"
 geodate = "0.4.0"
