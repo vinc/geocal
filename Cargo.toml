@@ -1,6 +1,8 @@
 [package]
 name = "geocal"
+description = "A command line tool displaying a calendar and ephemeris of a geodate"
 version = "0.1.0"
+license = "MIT"
 authors = ["Vincent Ollivier <v@vinc.cc>"]
 edition = "2018"
 repository = "https://github.com/vinc/geocal"
