@@ -9,5 +9,5 @@ repository = "https://github.com/vinc/geocal"
 readme = "README.md"
 
 [dependencies]
-colored = "1.8"
+colored = "2.0"
 geodate = "0.4.0"
