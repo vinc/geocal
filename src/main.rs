@@ -77,7 +77,7 @@ fn main() {
     println!("{}", line);
 
     // Date
-    let colored_title = "Date:".bold();
+    let colored_title = "Date".bold();
     let colored_date = format!("{}{}-{}-{}", date[0], date[1], date[2], date[3]).bold().red();
     println!("  {} {:spacing$} {} {}", sep, colored_title, colored_date, sep, spacing = (3 * week) - 12);
     println!("{}", line);
@@ -127,7 +127,7 @@ fn main() {
     println!("{}", line);
 
     // Time
-    let colored_title = "Time:".bold();
+    let colored_title = "Time".bold();
     let colored_time = format!("{}:{}", date[4], date[5]).bold().red();
     println!("  {} {:spacing$} {} {}", sep, colored_title, colored_time, sep, spacing = (3 * week) - 7);
     println!("{}", line);
@@ -143,7 +143,7 @@ fn main() {
                 _ => e
             };
             let time = get_formatted_date("%c:%b", t, longitude);
-            println!("  {} {:spacing$} {} {}", sep, format!("{}:", name), time, sep, spacing = (3 * week) - 7);
+            println!("  {} {:spacing$} {} {}", sep, format!("{}", name), time, sep, spacing = (3 * week) - 7);
         }
         println!("{}", line);
     }
