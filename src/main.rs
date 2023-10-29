@@ -78,7 +78,7 @@ fn main() {
 
     // Date
     let is_negative = date[0].starts_with('-');
-    let colored_title = "Date:".bold();
+    let colored_title = "Date".bold();
     let colored_date = format!("{}{}-{}-{}", date[0], date[1], date[2], date[3]).bold().red();
     let mut spacing = (3 * week) - 12;
     if is_negative {
@@ -132,7 +132,7 @@ fn main() {
     println!("{}", line);
 
     // Time
-    let colored_title = "Time:".bold();
+    let colored_title = "Time".bold();
     let colored_time = format!("{}:{}", date[4], date[5]).bold().red();
     println!("  {} {:spacing$} {} {}", sep, colored_title, colored_time, sep, spacing = (3 * week) - 7);
     println!("{}", line);
@@ -149,7 +149,7 @@ fn main() {
             };
             let time = get_formatted_date("%c:%b", t, longitude);
             let spacing = (3 * week) - 7;
-            println!("  {} {:spacing$} {} {}", sep, format!("{}:", name), time, sep);
+            println!("  {} {:spacing$} {} {}", sep, format!("{}", name), time, sep);
         }
         println!("{}", line);
     }

@@ -31,7 +31,7 @@ to get a calendar representation of a [geodate](https://geodate.org):
     $ geocal 51.1789 -1.8262 1403333333
 
       +-------------------------+
-      | Date:        0114-05-24 |
+      | Date         0114-05-24 |
       +-------------------------+
       | So Me Ve Te Ma Ju Sa Lu |
       | 00 01 02 03 04 05 06    |
@@ -39,7 +39,7 @@ to get a calendar representation of a [geodate](https://geodate.org):
       | 15 16 17 18 19 20 21    |
       | 22 23 24 25 26 27 28 29 |
       +-------------------------+
-      | Time:             27:76 |
+      | Time              27:76 |
       +-------------------------+
 
 There's also an ephemeris option:
@@ -47,7 +47,7 @@ There's also an ephemeris option:
     $ geocal 51.1789 -1.8262 1403333333 --ephem
 
       +-------------------------+
-      | Date:        0114-05-24 |
+      | Date         0114-05-24 |
       +-------------------------+
       | So Me Ve Te Ma Ju Sa Lu |
       | 00 01 02 03 04 05 06    |
@@ -55,13 +55,13 @@ There's also an ephemeris option:
       | 15 16 17 18 19 20 21    |
       | 22 23 24 25 26 27 28 29 |
       +-------------------------+
-      | Time:             27:76 |
+      | Time              27:76 |
       +-------------------------+
-      | Moonrise:         01:57 |
-      | Sunrise:          15:46 |
-      | Solstice:         44:61 |
-      | Moonset:          58:86 |
-      | Sunset:           84:53 |
+      | Moonrise          01:57 |
+      | Sunrise           15:46 |
+      | Solstice          44:61 |
+      | Moonset           58:86 |
+      | Sunset            84:53 |
       +-------------------------+
 
 And a solar calendar option instead of the lunisolar calendar to keep track of
@@ -70,7 +70,7 @@ the seasons:
     $ geocal 51.1789 -1.8262 1403333333 --ephem --solar
 
       +-------------------------------+
-      | Date:              0114-02-00 |
+      | Date               0114-02-00 |
       +-------------------------------+
       | So Me Ve Te Ma Ju Sa Ur Ne Lu |
       | 00 01 02 03 04 05 06 07 08 09 |
@@ -84,16 +84,16 @@ the seasons:
       | 80 81 82 83 84 85 86 87 88 89 |
       | 90 91 92 93                   |
       +-------------------------------+
-      | Time:                   27:76 |
+      | Time                    27:76 |
       +-------------------------------+
-      | Moonrise:               01:57 |
-      | Sunrise:                15:46 |
-      | Solstice:               44:61 |
-      | Moonset:                58:86 |
-      | Sunset:                 84:53 |
+      | Moonrise                01:57 |
+      | Sunrise                 15:46 |
+      | Solstice                44:61 |
+      | Moonset                 58:86 |
+      | Sunset                  84:53 |
       +-------------------------------+
 
 License
 -------
 
-Copyright (c) 2019-2020 Vincent Ollivier. Released under the MIT License.
+Copyright (c) 2019-2023 Vincent Ollivier. Released under the MIT License.
